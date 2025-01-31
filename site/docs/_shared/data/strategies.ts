@@ -24,6 +24,16 @@ export const strategies: Strategy[] = [
     link: '/docs/red-team/strategies/custom/',
   },
   {
+    category: 'Static (Single-Turn)',
+    strategy: 'image',
+    displayName: 'Image Encoding',
+    description: 'Vision model bypass',
+    longDescription: 'Converts text into images to bypass content filters in multi-modal LLMs',
+    cost: 'Low',
+    asrIncrease: '30-50%',
+    link: '/docs/red-team/strategies/image/',
+  },
+  {
     category: 'Dynamic (Single-Turn)',
     strategy: 'best-of-n',
     displayName: 'Best-of-N',

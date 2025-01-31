@@ -15,6 +15,9 @@ import {
   ALIASED_PLUGIN_MAPPINGS,
   type Strategy,
   type Plugin,
+  categoryAliases,
+  pluginDescriptions,
+  strategyDescriptions,
 } from '../redteam/constants';
 import type { RedteamFileConfig, RedteamPluginObject, RedteamStrategy } from '../redteam/types';
 import { isJavascriptFile } from '../util/file';
@@ -75,38 +78,29 @@ export const RedteamPluginSchema = z.union([
   RedteamPluginObjectSchema,
 ]);
 
-const strategyIdSchema = z
+const redteamStrategySchema = z
   .union([
-    z.enum(ALL_STRATEGIES as unknown as [string, ...string[]]).superRefine((val, ctx) => {
-      if (!ALL_STRATEGIES.includes(val as Strategy)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.invalid_enum_value,
-          options: [...ALL_STRATEGIES] as [string, ...string[]],
-          received: val,
-          message: `Invalid strategy name. Must be one of: ${[...ALL_STRATEGIES].join(', ')} (or a path starting with file://)`,
-        });
-      }
+    z.string(),
+    z.object({
+      id: z.string(),
+      config: z.record(z.any()).optional(),
     }),
-    z.string().refine(
-      (value) => {
-        return value.startsWith('file://') && isJavascriptFile(value);
-      },
-      {
-        message: `Custom strategies must start with file:// and end with .js or .ts, or use one of the built-in strategies: ${[...ALL_STRATEGIES].join(', ')}`,
-      },
-    ),
   ])
-  .describe('Name of the strategy');
+  .refine(
+    (strategy) => {
+      const id = typeof strategy === 'string' ? strategy : strategy.id;
+      return ALL_STRATEGIES.includes(id as Strategy);
+    },
+    (val) => ({
+      message: `Invalid strategy: ${
+        typeof val === 'string' ? val : val.id
+      }. Valid strategies are: ${ALL_STRATEGIES.join(', ')}`,
+    }),
+  );
 /**
  * Schema for individual redteam strategies
  */
-export const RedteamStrategySchema = z.union([
-  strategyIdSchema,
-  z.object({
-    id: strategyIdSchema,
-    config: z.record(z.unknown()).optional().describe('Strategy-specific configuration'),
-  }),
-]);
+export const RedteamStrategySchema = redteamStrategySchema;
 
 /**
  * Schema for `promptfoo redteam generate` command options

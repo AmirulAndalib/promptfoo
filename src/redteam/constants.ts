@@ -501,33 +501,26 @@ export const FRAMEWORK_COMPLIANCE_IDS = [
 ] as const;
 export type FrameworkComplianceId = (typeof FRAMEWORK_COMPLIANCE_IDS)[number];
 
-export const DEFAULT_STRATEGIES = ['basic', 'jailbreak', 'jailbreak:composite'] as const;
-export type DefaultStrategy = (typeof DEFAULT_STRATEGIES)[number];
-
-export const MULTI_TURN_STRATEGIES = ['crescendo', 'goat'] as const;
-export type MultiTurnStrategy = (typeof MULTI_TURN_STRATEGIES)[number];
-
-export const AGENTIC_STRATEGIES = ['crescendo', 'goat', 'jailbreak', 'jailbreak:tree'] as const;
-export type AgenticStrategy = (typeof AGENTIC_STRATEGIES)[number];
-
-export const ADDITIONAL_STRATEGIES = [
-  'prompt-injection',
+export const ALL_STRATEGIES = [
+  'default',
   'base64',
+  'basic',
+  'best-of-n',
   'citation',
   'crescendo',
   'gcg',
   'goat',
-  'jailbreak:tree',
+  'image',
+  'jailbreak',
+  'jailbreak:composite',
   'jailbreak:likert',
+  'jailbreak:tree',
   'leetspeak',
   'math-prompt',
   'multilingual',
+  'prompt-injection',
   'rot13',
-  'best-of-n',
 ] as const;
-export type AdditionalStrategy = (typeof ADDITIONAL_STRATEGIES)[number];
-
-export const ALL_STRATEGIES = ['default', ...DEFAULT_STRATEGIES, ...ADDITIONAL_STRATEGIES] as const;
 export type Strategy = (typeof ALL_STRATEGIES)[number];
 
 export const subCategoryDescriptions: Record<Plugin | Strategy, string> = {
@@ -554,24 +547,24 @@ export const subCategoryDescriptions: Record<Plugin | Strategy, string> = {
   goat: 'Dynamic multi-turn attack generation using adversarial techniques',
   hallucination: 'Tests for fabrication of false or misleading information',
   harmful: 'Tests handling of malicious content across multiple categories',
-  'harmful:chemical-biological-weapons': 'Tests handling of WMD-related content',
+  'harmful:chemical-biological-weapons': 'Tests detection and response to WMD-related content',
   'harmful:child-exploitation': 'Tests handling of child exploitation content',
   'harmful:copyright-violations': 'Tests handling of intellectual property violations',
-  'harmful:cybercrime': 'Tests handling of cybercrime-related content',
+  'harmful:cybercrime': 'Tests detection of cybercrime-related content',
   'harmful:graphic-content': 'Tests handling of graphic or violent content',
   'harmful:harassment-bullying': 'Tests handling of harassment and bullying content',
   'harmful:hate': 'Tests handling of hate speech and discriminatory content',
-  'harmful:illegal-activities': 'Tests handling of general illegal activities',
-  'harmful:illegal-drugs': 'Tests handling of illegal drug-related content',
+  'harmful:illegal-activities': 'Tests handling of illegal activity content',
+  'harmful:illegal-drugs': 'Tests handling of drug-related content',
   'harmful:indiscriminate-weapons': 'Tests handling of weapons-related content',
   'harmful:insults': 'Tests handling of personal attacks and insults',
-  'harmful:intellectual-property': 'Tests handling of IP theft and violations',
-  'harmful:misinformation-disinformation': 'Tests handling of false information campaigns',
+  'harmful:intellectual-property': 'Tests handling of IP theft attempts',
+  'harmful:misinformation-disinformation': 'Tests handling of disinformation campaigns',
   'harmful:non-violent-crime': 'Tests handling of non-violent criminal content',
   'harmful:privacy': 'Tests handling of privacy violation attempts',
-  'harmful:profanity': 'Tests handling of profane or inappropriate language',
-  'harmful:radicalization': 'Tests handling of extremist content and recruitment',
-  'harmful:self-harm': 'Tests handling of self-harm and suicide content',
+  'harmful:profanity': 'Tests handling of profane content',
+  'harmful:radicalization': 'Tests handling of extremist content',
+  'harmful:self-harm': 'Tests handling of self-harm content',
   'harmful:sex-crime': 'Tests handling of sexual crime content',
   'harmful:sexual-content': 'Tests handling of explicit sexual content',
   'harmful:specialized-advice': 'Tests handling of unauthorized professional advice',
@@ -581,34 +574,35 @@ export const subCategoryDescriptions: Record<Plugin | Strategy, string> = {
   'harmful:cybercrime:malicious-code': 'Tests creation of malicious code',
   'harmful:weapons:ied': 'Tests handling of Improvised Explosive Devices',
   hijacking: 'Tests for unauthorized resource usage and purpose deviation',
-  imitation: 'Tests for unauthorized impersonation of entities',
+  imitation: 'Tests safeguards against unauthorized entity impersonation attempts',
   'indirect-prompt-injection': 'Tests for injection vulnerabilities via untrusted variables',
   intent: 'Tests for manipulation of system behavior via specific prompts',
   jailbreak: 'Single-shot optimization of safety bypass techniques',
   'jailbreak:composite': 'Combines multiple jailbreak techniques for enhanced effectiveness',
   'jailbreak:tree': 'Tree-based search for optimal safety bypass vectors',
   leetspeak: 'Tests handling of leetspeak-encoded malicious content',
-  'math-prompt': 'Tests handling of mathematical notation-based attacks',
+  'math-prompt': 'Tests resilience against mathematical notation-based attacks',
   multilingual: 'Tests handling of attacks across multiple languages',
-  overreliance: 'Tests for overreliance on system assumptions',
+  overreliance: 'Assesses overreliance on system assumptions',
   'rag-document-exfiltration': 'Tests for RAG document exfiltration',
-  pii: 'Tests handling of personal identifiable information',
-  'pii:api-db': 'Tests for PII exposure via API/database access',
-  'pii:direct': 'Tests for direct PII exposure vulnerabilities',
-  'pii:session': 'Tests for PII exposure in session data',
-  'pii:social': 'Tests for PII exposure via social engineering',
+  pii: 'Comprehensive evaluation of personal identifiable information protection',
+  'pii:api-db': 'Tests for PII exposure through API and database access vectors',
+  'pii:direct': 'Evaluates direct PII exposure vulnerabilities',
+  'pii:session': 'Tests for PII leakage in session data',
+  'pii:social': 'Assesses PII exposure through social engineering vectors',
   pliny: 'Tests handling of Pliny prompt injections',
-  policy: 'Tests compliance with custom security policies',
+  policy: 'Validates compliance with custom security policies and controls',
   politics: 'Tests handling of political content and bias',
-  'prompt-extraction': 'Tests for system prompt disclosure vulnerabilities',
+  'prompt-extraction': 'Evaluates protection against system prompt disclosure attempts',
   'prompt-injection': 'Tests for direct prompt injection vulnerabilities',
-  rbac: 'Tests role-based access control implementation',
-  religion: 'Tests handling of religious content and bias',
+  rbac: 'Tests implementation of role-based access control mechanisms',
+  religion: 'Assesses handling of religious content and bias',
   rot13: 'Tests handling of ROT13-encoded malicious content',
-  'shell-injection': 'Tests for command injection vulnerabilities',
-  'sql-injection': 'Tests for SQL injection vulnerabilities',
+  'shell-injection': 'Tests protection against command injection vulnerabilities',
+  'sql-injection': 'Evaluates resilience against SQL injection attacks',
   ssrf: 'Tests for server-side request forgery vulnerabilities',
   'system-prompt-override': 'Tests for system prompt override vulnerabilities',
+  image: 'Converts text into images to bypass content filters in multi-modal LLMs',
 };
 
 // These names are displayed in risk cards and in the table
@@ -690,6 +684,7 @@ export const displayNameOverrides: Record<Plugin | Strategy, string> = {
   'sql-injection': 'SQL Injection',
   ssrf: 'SSRF Vulnerability',
   'system-prompt-override': 'System Prompt Override',
+  image: 'Image Encoding',
 };
 
 export enum Severity {
@@ -946,7 +941,7 @@ export const categoryAliasesReverse = Object.entries(categoryAliases).reduce(
 
 export const pluginDescriptions: Record<Plugin, string> = {
   'ascii-smuggling':
-    'Tests system resilience against Unicode tag-based instruction smuggling attacks that can bypass content filters and security controls',
+    'Tests system resilience against Unicode tag-based instruction smuggling attacks',
   beavertails: 'Tests handling of malicious prompts from the BeaverTails dataset',
   bfla: 'Evaluates function-level authorization controls to identify privilege escalation vulnerabilities (OWASP API Security Top 10 #5)',
   bola: 'Tests object-level authorization mechanisms to detect unauthorized data access vulnerabilities (OWASP API Security Top 10 #1)',
@@ -977,10 +972,10 @@ export const pluginDescriptions: Record<Plugin, string> = {
   'pii:social': 'Assesses PII exposure through social engineering vectors',
   pliny: 'Tests handling of Pliny prompt injections',
   policy: 'Validates compliance with custom security policies and controls',
-  politics: 'Tests handling of political content and bias mitigation',
+  politics: 'Tests handling of political content and bias',
   'prompt-extraction': 'Evaluates protection against system prompt disclosure attempts',
   rbac: 'Tests implementation of role-based access control mechanisms',
-  religion: 'Assesses handling of religious content and bias mitigation',
+  religion: 'Assesses handling of religious content and bias',
   'shell-injection': 'Tests protection against command injection vulnerabilities',
   'sql-injection': 'Evaluates resilience against SQL injection attacks',
   ssrf: 'Tests for server-side request forgery vulnerabilities',
@@ -1023,6 +1018,7 @@ export const strategyDescriptions: Record<Strategy, string> = {
   default: 'Applies standard security testing methodology',
   gcg: 'Greedy Coordinate Gradient adversarial suffix attack',
   goat: 'Deploys dynamic attack generation using advanced adversarial techniques',
+  image: 'Converts text into images to bypass content filters in multi-modal LLMs',
   jailbreak: 'Optimizes single-turn attacks to bypass security controls',
   'jailbreak:composite': 'Chains multiple attack vectors for enhanced effectiveness',
   'jailbreak:likert': 'Uses Likert scale-based prompts to bypass content filters',
@@ -1043,6 +1039,7 @@ export const strategyDisplayNames: Record<Strategy, string> = {
   default: 'Basic',
   gcg: 'Greedy Coordinate Gradient',
   goat: 'Generative Offensive Agent Tester',
+  image: 'Image Encoding',
   'jailbreak:composite': 'Composite Jailbreaks',
   'jailbreak:likert': 'Likert Scale Jailbreak',
   'jailbreak:tree': 'Tree-based Optimization',
@@ -1064,3 +1061,24 @@ export const PLUGIN_PRESET_DESCRIPTIONS: Record<string, string> = {
   MITRE: 'MITRE ATLAS framework',
   Custom: 'Choose your own plugins',
 } as const;
+
+export const DEFAULT_STRATEGIES = ['jailbreak', 'jailbreak:composite'] as const;
+
+export const ADDITIONAL_STRATEGIES = [
+  'base64',
+  'best-of-n',
+  'citation',
+  'crescendo',
+  'gcg',
+  'goat',
+  'image',
+  'jailbreak:likert',
+  'jailbreak:tree',
+  'leetspeak',
+  'math-prompt',
+  'multilingual',
+  'prompt-injection',
+  'rot13',
+] as const;
+
+export const MULTI_TURN_STRATEGIES = ['crescendo', 'goat'] as const;

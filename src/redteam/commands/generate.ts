@@ -24,11 +24,14 @@ import {
   REDTEAM_MODEL,
   DEFAULT_PLUGINS as REDTEAM_DEFAULT_PLUGINS,
   ADDITIONAL_PLUGINS as REDTEAM_ADDITIONAL_PLUGINS,
+  ALL_STRATEGIES,
   DEFAULT_STRATEGIES,
   ADDITIONAL_STRATEGIES,
+  Plugin,
+  Strategy,
 } from '../constants';
 import { shouldGenerateRemote } from '../remoteGeneration';
-import type { RedteamStrategyObject, SynthesizeOptions } from '../types';
+import type { RedteamStrategy, RedteamStrategyObject, SynthesizeOptions } from '../types';
 import type { RedteamFileConfig, RedteamCliGenerateOptions } from '../types';
 
 function getConfigHash(configPath: string): string {
@@ -155,11 +158,8 @@ export async function doGenerateRedteam(
   }
   invariant(plugins && Array.isArray(plugins) && plugins.length > 0, 'No plugins found');
 
-  let strategies: (string | { id: string })[] =
+  const strategies: RedteamStrategy[] =
     redteamConfig?.strategies ?? DEFAULT_STRATEGIES.map((s) => ({ id: s }));
-  if (options.strategies) {
-    strategies = options.strategies;
-  }
   const strategyObjs: RedteamStrategyObject[] = strategies.map((s) =>
     typeof s === 'string' ? { id: s } : s,
   );

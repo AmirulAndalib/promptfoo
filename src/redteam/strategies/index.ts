@@ -12,6 +12,7 @@ import { addCitationTestCases } from './citation';
 import { addCrescendo } from './crescendo';
 import { addGcgTestCases } from './gcg';
 import { addGoatTestCases } from './goat';
+import { addImageEncoding } from './image';
 import { addIterativeJailbreaks } from './iterative';
 import { addLeetspeak } from './leetspeak';
 import { addLikertTestCases } from './likert';
@@ -37,6 +38,15 @@ export const Strategies: Strategy[] = [
       // Basic strategy doesn't modify test cases, it just controls whether they're included
       // The actual filtering happens in synthesize()
       return [];
+    },
+  },
+  {
+    id: 'image',
+    action: async (testCases, injectVar) => {
+      logger.debug(`Adding image encoding to ${testCases.length} test cases`);
+      const newTestCases = addImageEncoding(testCases, injectVar);
+      logger.debug(`Added ${newTestCases.length} image encoded test cases`);
+      return newTestCases;
     },
   },
   {

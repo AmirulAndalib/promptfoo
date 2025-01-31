@@ -22,14 +22,15 @@ import { BrowserBehavior } from '../../util/server';
 import { checkServerRunning, openBrowser } from '../../util/server';
 import { extractVariablesFromTemplate, getNunjucksEngine } from '../../util/templates';
 import {
-  type Plugin,
-  ADDITIONAL_STRATEGIES,
-  ALL_PLUGINS,
-  DEFAULT_PLUGINS,
+  ALL_STRATEGIES,
   DEFAULT_STRATEGIES,
-  type Strategy,
+  ADDITIONAL_STRATEGIES,
+  Plugin,
+  Strategy,
   subCategoryDescriptions,
   HARM_PLUGINS,
+  ALL_PLUGINS,
+  DEFAULT_PLUGINS,
 } from '../constants';
 import { doGenerateRedteam } from './generate';
 
@@ -503,35 +504,23 @@ export async function redteamInit(directory: string | undefined) {
   let strategies: Strategy[];
 
   if (strategyConfigChoice === 'default') {
-    // TODO(ian): Differentiate strategies
-    if (redTeamChoice === 'rag') {
-      strategies = Array.from(DEFAULT_STRATEGIES);
-    } else if (redTeamChoice === 'agent') {
-      strategies = Array.from(DEFAULT_STRATEGIES);
-    } else {
-      strategies = Array.from(DEFAULT_STRATEGIES);
-    }
+    strategies = [...DEFAULT_STRATEGIES];
   } else {
-    const strategyChoices = [
-      ...Array.from(DEFAULT_STRATEGIES).sort(),
-      new Separator(),
-      ...Array.from(ADDITIONAL_STRATEGIES).sort(),
-    ].map((strategy) =>
-      typeof strategy === 'string'
-        ? {
-            name: `${strategy} - ${subCategoryDescriptions[strategy] || 'No description'}`,
-            value: strategy,
-            checked: DEFAULT_STRATEGIES.includes(strategy as any),
-          }
-        : strategy,
+    const strategyChoices = [...DEFAULT_STRATEGIES, new Separator(), ...ADDITIONAL_STRATEGIES].map(
+      (item) => {
+        if (item instanceof Separator) return item;
+        return {
+          name: `${item} - ${subCategoryDescriptions[item as Strategy] || 'No description'}`,
+          value: item,
+          checked: (DEFAULT_STRATEGIES as readonly string[]).includes(item),
+        };
+      },
     );
 
-    strategies = await checkbox({
-      message: `Select the ones you want to use. Don't worry, you can change this later:`,
+    strategies = (await checkbox({
+      message: 'Select strategies',
       choices: strategyChoices,
-      pageSize: process.stdout.rows - 6,
-      loop: false,
-    });
+    })) as Strategy[];
   }
 
   recordOnboardingStep('choose strategies', {

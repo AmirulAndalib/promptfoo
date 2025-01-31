@@ -83,3 +83,8 @@ export function getUnifiedConfig(
     },
   };
 }
+
+export const isMultiTurnStrategy = (strategy: string | { id: string }) => {
+  const id = typeof strategy === 'string' ? strategy : strategy.id;
+  return (MULTI_TURN_STRATEGIES as readonly string[]).includes(id);
+};
