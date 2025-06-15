@@ -18,6 +18,7 @@ import {
   shouldGenerateRemote,
 } from '../remoteGeneration';
 import { getShortPluginId } from '../util';
+import { AegisPlugin } from './aegis';
 import { MEMORY_POISONING_PLUGIN_ID } from './agentic/constants';
 import { type RedteamPluginBase } from './base';
 import { BeavertailsPlugin } from './beavertails';
@@ -172,6 +173,7 @@ const pluginFactories: PluginFactory[] = [
   createPluginFactory(ToolDiscoveryPlugin, 'tool-discovery'),
   createPluginFactory(HarmbenchPlugin, 'harmbench'),
   createPluginFactory(ToxicChatPlugin, 'toxic-chat'),
+  createPluginFactory(AegisPlugin, 'aegis'),
   createPluginFactory(HallucinationPlugin, 'hallucination'),
   createPluginFactory(ImitationPlugin, 'imitation'),
   createPluginFactory<{ intent: string }>(IntentPlugin, 'intent', (config: { intent: string }) =>
@@ -277,6 +279,12 @@ const remotePlugins: PluginFactory[] = [
   'harmful:misinformation-disinformation',
   'harmful:specialized-advice',
   'hijacking',
+  'mcp',
+  'medical:anchoring-bias',
+  'medical:hallucination',
+  'medical:incorrect-knowledge',
+  'medical:prioritization-error',
+  'medical:sycophancy',
   'off-topic',
   'rag-document-exfiltration',
   'rag-poisoning',
@@ -284,7 +292,6 @@ const remotePlugins: PluginFactory[] = [
   'religion',
   'ssrf',
   'system-prompt-override',
-  'mcp',
 ].map((key) => createRemotePlugin(key));
 
 remotePlugins.push(

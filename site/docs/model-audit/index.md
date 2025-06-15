@@ -13,6 +13,14 @@ By invoking `promptfoo scan-model`, you can use ModelAudit's static security sca
 
 ![example model scan results](/img/docs/modelaudit/modelaudit-result.png)
 
+Promptfoo also includes a UI that allows you to set up a scan:
+
+![model scan](/img/docs/modelaudit/model-audit-setup.png)
+
+And displays the results:
+
+![model scan results](/img/docs/modelaudit/model-audit-results.png)
+
 ## Purpose
 
 AI/ML models can introduce security risks through:
@@ -22,6 +30,7 @@ AI/ML models can introduce security risks through:
 - Potentially unsafe Keras Lambda layers
 - Encoded payloads hidden in model structures
 - Risky configurations in model architectures
+- Malicious content in ZIP archives and compressed model files
 
 ModelAudit helps identify these risks before models are deployed to production environments, ensuring a more secure AI pipeline.
 
